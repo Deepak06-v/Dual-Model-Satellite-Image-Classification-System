@@ -32,20 +32,16 @@ class PredictResponse(BaseModel):
 # 📁 Load Models + Classes
 # =========================
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
-from .model_loader import download_model
-
-cnn_path = download_model("eurosat_model.keras")
-resnet_path = download_model("transferlearnig_model.keras")
-class_path = download_model("class_names.json")
+from app.routes.model_loader import download_if_needed
+cnn_path = download_if_needed("eurosat_model.keras")
+resnet_path = download_if_needed("transferlearnig_model.keras")
+class_path = download_if_needed("class_names.json")
 
 cnn_model = tf.keras.models.load_model(cnn_path)
 resnet_model = tf.keras.models.load_model(resnet_path)
 
 with open(class_path, "r") as f:
     class_names = json.load(f)
-
 
 # =========================
 # 🧠 Preprocessing Functions
